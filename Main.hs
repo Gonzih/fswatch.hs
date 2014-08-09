@@ -34,3 +34,8 @@ main = do
       handler      -- action
 
     forever $ threadDelay maxBound
+
+-- TODO:
+-- add lock (maybe not)
+-- parse console options
+-- ignore patterns
