@@ -20,7 +20,7 @@ handler event = do
         cmd = "./.fswatch \"" ++ path  ++ "\" \"" ++ eType ++ "\""
     code <- system cmd
     case code of
-      ExitFailure _ -> putStrLn "Execution of helper failed." >> print code
+      ExitFailure i -> putStr "Execution of helper failed. Exit code: " >> print i
       _             -> return ()
 
 main :: IO ()
