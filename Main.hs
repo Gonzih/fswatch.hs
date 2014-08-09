@@ -15,9 +15,9 @@ eventType (Removed _ _)  = "removed"
 
 handler :: Event -> IO ()
 handler event = do
-    let path = encodeString $ eventPath event
+    let path  = encodeString $ eventPath event
         eType = eventType event
-        cmd = "./.fswatch \"" ++ path  ++ "\" \"" ++ eType ++ "\""
+        cmd   = "./.fswatch \"" ++ path  ++ "\" \"" ++ eType ++ "\""
     code <- system cmd
     case code of
       ExitFailure i -> putStr "Execution of helper failed. Exit code: " >> print i
