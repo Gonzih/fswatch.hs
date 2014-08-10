@@ -8,7 +8,7 @@ import Filesystem.Path.CurrentOS (encodeString)
 import Data.List (isInfixOf)
 
 mainFile :: String
-mainFile = "./.fswatch"
+mainFile = ".fswatch"
 
 eventPathString :: Event -> String
 eventPathString event = encodeString $ eventPath event
@@ -36,7 +36,7 @@ handler event = do
         _                    -> return ()
 
 predicate :: Event -> Bool
-predicate event = not $ "./.fswatch" `isInfixOf` eventPathString event
+predicate event = not $ mainFile `isInfixOf` eventPathString event
 
 main :: IO ()
 main = do
