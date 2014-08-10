@@ -1,3 +1,5 @@
+## FSWatch [![Build Status](https://travis-ci.org/Gonzih/fswatch.hs.svg?branch=master)](https://travis-ci.org/Gonzih/fswatch.hs)
+
 ![fswatch.hs](https://dl.dropboxusercontent.com/u/4109351/github/fswatch.png)
 
 ### Usage:
