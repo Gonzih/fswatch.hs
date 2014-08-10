@@ -15,6 +15,8 @@ It's very simple util (at least for now) that leverages all filtering logic to u
 
 Currently it can be solved like that:
 
-```.fswatch
+```sh
+#.fswatch
+
 fish .fswatch.fish $@
 ```
