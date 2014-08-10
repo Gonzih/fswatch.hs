@@ -38,10 +38,10 @@ main = do
     lock <- newEmptyMVar
     withManager $ \mgr -> do
         _ <- watchTree
-            mgr              -- manager
-            "."              -- directory to watch
-            (const True)     -- predicate
-            (handler   lock) -- action
+            mgr            -- manager
+            "."            -- directory to watch
+            (const True)   -- predicate
+            (handler lock) -- action
 
         forever getLine
 
