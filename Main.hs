@@ -77,6 +77,4 @@ main = execParser opts >>= watch
            <> header   "fswatch - 0.1.0.0")
 
 -- TODO:
--- parse console options (http://hackage.haskell.org/package/optparse-applicative-0.9.0)
 -- ignore patterns
--- -vv option
