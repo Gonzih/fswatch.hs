@@ -25,7 +25,7 @@ handler :: Event -> IO ()
 handler event = do
     let path  = eventPathString event
         eType = eventType event
-        cmd   = unwords [ "sh -vv"
+        cmd   = unwords [ "sh"
                         , q mainFile
                         , q path
                         , q eType
@@ -53,3 +53,4 @@ main = do
 -- TODO:
 -- parse console options
 -- ignore patterns
+-- -vv option
