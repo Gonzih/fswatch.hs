@@ -13,12 +13,12 @@ eventType (Added    _ _) = "added"
 eventType (Modified _ _) = "modified"
 eventType (Removed  _ _) = "removed"
 
-predicate :: MVar a -> Event -> IO Bool
-predicate lock _ = and `liftM` sequence [isEmptyMVar lock]
+isUnLocked :: MVar a -> IO Bool
+isUnLocked lock = isEmptyMVar lock
 
 handler :: MVar Int -> Event -> IO ()
 handler lock event = do
-    predicateResult <- predicate lock event
+    predicateResult <- isUnLocked lock
     when predicateResult $ do
         let path  = encodeString $ eventPath event
             eType = eventType event
