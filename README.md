@@ -9,9 +9,11 @@ It's very simple util (at least for now) that leverages all filtering logic to u
 
 ### Installation:
 
-* git clone https://github.com/Gonzih/fswatch.hs.git
-* cd fswatch.hs
-* cabal install
+```sh
+git clone https://github.com/Gonzih/fswatch.hs.git
+cd fswatch.hs
+cabal install
+```
 
 ### What if I don't want to use `sh` as language for .fswatch file?
 
