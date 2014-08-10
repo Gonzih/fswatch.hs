@@ -1,4 +1,4 @@
-echo $1
+echo $@
 
 if [[ "$1" = *Main.hs ]]
 then cabal build
