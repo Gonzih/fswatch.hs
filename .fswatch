@@ -1,0 +1,5 @@
+echo $1
+
+if [[ "$1" = *Main.hs ]]
+then cabal build
+fi
