@@ -3,9 +3,10 @@
 import System.FSNotify
 import System.Process (system)
 import System.Exit (ExitCode(..))
-import Control.Monad (forever)
+import Control.Monad (forever, when)
 import Filesystem.Path.CurrentOS (encodeString)
 import Data.List (isInfixOf)
+import System.Directory (doesFileExist)
 
 mainFile :: String
 mainFile = ".fswatch"
@@ -30,10 +31,12 @@ handler event = do
                         , q path
                         , q eType
                         ]
-    code <- system cmd
-    case code of
-        ExitFailure exitCode -> putStr "Execution of helper failed. Exit code: " >> print exitCode
-        _                    -> return ()
+    filePresent <- doesFileExist mainFile
+    when filePresent $ do
+        code <- system cmd
+        case code of
+            ExitFailure exitCode -> putStr "Execution of helper failed. Exit code: " >> print exitCode
+            _                    -> return ()
 
 predicate :: Event -> Bool
 predicate event = not $ mainFile `isInfixOf` eventPathString event
