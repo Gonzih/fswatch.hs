@@ -1,3 +1,5 @@
+![fswatch.hs](https://dl.dropboxusercontent.com/u/4109351/github/fswatch.png)
+
 ### Usage:
 
 FSWatch will execute `sh .fswatch` in current directory on every change providing file path and event type (added, modified, removed).
