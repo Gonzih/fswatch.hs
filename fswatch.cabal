@@ -4,7 +4,8 @@
 name:                fswatch
 version:             0.1.0.0
 synopsis:            Simple fs watcher
--- description:
+description:         Small util that monitors filesystem for changes.
+homepage:            https://github.com/Gonzih/fswatch.hs
 license:             MIT
 license-file:        LICENSE
 author:              Max Gonzih
