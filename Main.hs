@@ -7,6 +7,10 @@ import Control.Monad (forever, when)
 import Filesystem.Path.CurrentOS (encodeString)
 import Data.List (isInfixOf)
 import System.Directory (doesFileExist)
+import Options.Applicative
+
+data CommandArgs = CommandArgs
+    { executeWith :: String }
 
 mainFile :: String
 mainFile = ".fswatch"
@@ -20,7 +24,7 @@ eventType (Modified _ _) = "modified"
 eventType (Removed  _ _) = "removed"
 
 q :: String -> String
-q str = "\"" ++ str ++ "\""
+q string = "\"" ++ string ++ "\""
 
 execute :: String -> IO ()
 execute cmd = do
@@ -29,12 +33,20 @@ execute cmd = do
       ExitFailure exitCode -> putStr "Execution of helper failed. Exit code: " >> print exitCode
       _                    -> return ()
 
+argumentsParser :: Parser CommandArgs
+argumentsParser = CommandArgs
+    <$> strOption
+        ( long "execute-with"
+       <> short 'e'
+       <> value "sh"
+       <> help "Executable to call file with (default: sh)")
 
-handler :: Event -> IO ()
-handler event = do
+
+handler :: CommandArgs -> Event -> IO ()
+handler (CommandArgs shellExecutable) event = do
     let path  = eventPathString event
         eType = eventType event
-        cmd   = unwords [ "sh"
+        cmd   = unwords [ shellExecutable
                         , q mainFile
                         , q path
                         , q eType
@@ -45,17 +57,24 @@ handler event = do
 predicate :: Event -> Bool
 predicate event = not $ mainFile `isInfixOf` eventPathString event
 
-main :: IO ()
-main = do
+watch :: CommandArgs -> IO ()
+watch commandArgs = do
     putStrLn "Watching current directory for changes."
     withManager $ \mgr -> do
         _ <- watchTree
-            mgr          -- manager
-            "."          -- directory to watch
-            predicate    -- predicate
-            handler      -- action
+            mgr
+            "."
+            predicate
+            (handler commandArgs)
 
         forever getLine
+
+main :: IO ()
+main = execParser opts >>= watch
+    where opts = info (helper <*> argumentsParser)
+            ( fullDesc
+           <> progDesc "Watch current directory for changes."
+           <> header   "fswatch - 0.1.0.0")
 
 -- TODO:
 -- parse console options (http://hackage.haskell.org/package/optparse-applicative-0.9.0)
