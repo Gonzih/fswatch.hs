@@ -22,7 +22,7 @@ handler lock event = do
     when predicateResult $ do
         let path  = encodeString $ eventPath event
             eType = eventType event
-            cmd   = "./.fswatch \"" ++ path  ++ "\" \"" ++ eType ++ "\""
+            cmd   = "sh ./.fswatch \"" ++ path  ++ "\" \"" ++ eType ++ "\""
         putMVar lock 1
         _ <- forkIO $ do
             code <- system cmd
