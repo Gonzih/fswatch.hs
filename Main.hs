@@ -28,8 +28,8 @@ handler lock event = do
             code <- system cmd
             _ <- takeMVar lock
             case code of
-                ExitFailure i -> putStr "Execution of helper failed. Exit code: " >> print i
-                _             -> return ()
+                ExitFailure exitCode -> putStr "Execution of helper failed. Exit code: " >> print exitCode
+                _                    -> return ()
         return ()
 
 main :: IO ()
