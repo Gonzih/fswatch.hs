@@ -39,7 +39,8 @@ argumentsParser = CommandArgs
         ( long "execute-with"
        <> short 'e'
        <> value "sh"
-       <> help "Executable to call file with (default: sh)")
+       <> showDefault
+       <> help "Executable to call file with")
 
 
 handler :: CommandArgs -> Event -> IO ()
