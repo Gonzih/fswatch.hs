@@ -58,6 +58,6 @@ main = do
         forever getLine
 
 -- TODO:
--- parse console options
+-- parse console options (http://hackage.haskell.org/package/optparse-applicative-0.9.0)
 -- ignore patterns
 -- -vv option
