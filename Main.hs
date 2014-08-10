@@ -22,6 +22,14 @@ eventType (Removed  _ _) = "removed"
 q :: String -> String
 q str = "\"" ++ str ++ "\""
 
+execute :: String -> IO ()
+execute cmd = do
+    code <- system cmd
+    case code of
+      ExitFailure exitCode -> putStr "Execution of helper failed. Exit code: " >> print exitCode
+      _                    -> return ()
+
+
 handler :: Event -> IO ()
 handler event = do
     let path  = eventPathString event
@@ -32,11 +40,7 @@ handler event = do
                         , q eType
                         ]
     filePresent <- doesFileExist mainFile
-    when filePresent $ do
-        code <- system cmd
-        case code of
-            ExitFailure exitCode -> putStr "Execution of helper failed. Exit code: " >> print exitCode
-            _                    -> return ()
+    when filePresent $ execute cmd
 
 predicate :: Event -> Bool
 predicate event = not $ mainFile `isInfixOf` eventPathString event
