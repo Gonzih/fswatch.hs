@@ -17,10 +17,16 @@ cabal install
 
 ### What if I don't want to use `sh` as language for .fswatch file?
 
-Currently it can be solved like that:
+This can be solved like that:
 
 ```sh
 #.fswatch
 
 fish .fswatch.fish $@
+```
+
+Or like that:
+
+```
+fswatch --execute-with "fish"
 ```
