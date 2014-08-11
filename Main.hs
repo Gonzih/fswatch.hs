@@ -23,22 +23,19 @@ charactersNotToEscape = ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ "_-.,:/@\n"
 charEscape :: Char -> String
 charEscape c = if c `elem` charactersNotToEscape
                  then s
-                 else "\\" ++ s
+                 else '\\':s
                where s = [c]
 
 shellEscape :: String -> String
 shellEscape = concatMap charEscape
 
 eventPathString :: Event -> String
-eventPathString event = encodeString $ eventPath event
+eventPathString = encodeString . eventPath
 
 eventType :: Event -> String
 eventType (Added    _ _) = "added"
 eventType (Modified _ _) = "modified"
 eventType (Removed  _ _) = "removed"
-
-q :: String -> String
-q string = "\"" ++ shellEscape string ++ "\""
 
 execute :: String -> IO ()
 execute cmd = do
@@ -62,9 +59,9 @@ handler (CommandArgs shellExecutable) event = do
     let path  = eventPathString event
         eType = eventType event
         cmd   = unwords [ shellExecutable
-                        , q mainFile
-                        , q path
-                        , q eType
+                        , shellEscape mainFile
+                        , shellEscape path
+                        , shellEscape eType
                         ]
     filePresent <- doesFileExist mainFile
     when filePresent $ execute cmd
