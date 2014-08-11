@@ -1,5 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+module Main where
+
 import System.FSNotify
 import System.Process (system)
 import System.Exit (ExitCode(..))
