@@ -17,6 +17,18 @@ data CommandArgs = CommandArgs
 mainFile :: String
 mainFile = ".fswatch"
 
+charactersNotToEscape :: String
+charactersNotToEscape = ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ "_-.,:/@\n"
+
+charEscape :: Char -> String
+charEscape c = if s `isInfixOf` charactersNotToEscape
+                 then s
+                 else "\\" ++ s
+               where s = [c]
+
+shellEscape :: String -> String
+shellEscape = concat . map charEscape
+
 eventPathString :: Event -> String
 eventPathString event = encodeString $ eventPath event
 
@@ -26,7 +38,7 @@ eventType (Modified _ _) = "modified"
 eventType (Removed  _ _) = "removed"
 
 q :: String -> String
-q string = "\"" ++ string ++ "\""
+q string = "\"" ++ shellEscape string ++ "\""
 
 execute :: String -> IO ()
 execute cmd = do
