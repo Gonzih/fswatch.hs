@@ -6,9 +6,10 @@ import System.FSNotify
 import System.Process (system)
 import System.Exit (ExitCode(..))
 import Control.Monad (forever, when)
-import Filesystem.Path.CurrentOS (encodeString)
+import Filesystem.Path.CurrentOS (encodeString, (</>))
 import Data.List (isInfixOf)
-import System.Directory (doesFileExist)
+import Data.String (fromString)
+import System.Directory (doesFileExist, getCurrentDirectory)
 import Options.Applicative
 
 data CommandArgs = CommandArgs
@@ -66,17 +67,18 @@ handler (CommandArgs shellExecutable) event = do
     filePresent <- doesFileExist mainFile
     when filePresent $ execute cmd
 
-predicate :: Event -> Bool
-predicate = not . (mainFile `isInfixOf`) . eventPathString
+predicate :: String -> Event -> Bool
+predicate cwd event = (fromString cwd </> fromString mainFile) /= eventPath event
 
 watch :: CommandArgs -> IO ()
 watch commandArgs = do
     putStrLn "Watching current directory for changes."
+    cwd <- getCurrentDirectory
     withManager $ \mgr -> do
         _ <- watchTree
             mgr
             "."
-            predicate
+            (predicate cwd)
             (handler commandArgs)
 
         forever getLine
