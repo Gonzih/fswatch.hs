@@ -21,13 +21,13 @@ charactersNotToEscape :: String
 charactersNotToEscape = ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ "_-.,:/@\n"
 
 charEscape :: Char -> String
-charEscape c = if s `isInfixOf` charactersNotToEscape
+charEscape c = if c `elem` charactersNotToEscape
                  then s
                  else "\\" ++ s
                where s = [c]
 
 shellEscape :: String -> String
-shellEscape = concat . map charEscape
+shellEscape = concatMap charEscape
 
 eventPathString :: Event -> String
 eventPathString event = encodeString $ eventPath event
