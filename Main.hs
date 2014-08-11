@@ -67,7 +67,7 @@ handler (CommandArgs shellExecutable) event = do
     when filePresent $ execute cmd
 
 predicate :: Event -> Bool
-predicate event = not $ mainFile `isInfixOf` eventPathString event
+predicate = not . (mainFile `isInfixOf`) . eventPathString
 
 watch :: CommandArgs -> IO ()
 watch commandArgs = do
