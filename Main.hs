@@ -24,10 +24,8 @@ charactersNotToEscape :: String
 charactersNotToEscape = ['a'..'z'] ++ ['A'..'Z'] ++ ['0'..'9'] ++ "_-.,:/@\n"
 
 charEscape :: Char -> String
-charEscape c = if c `elem` charactersNotToEscape
-                 then s
-                 else '\\':s
-               where s = [c]
+charEscape c | c `elem` charactersNotToEscape = [c]
+             | otherwise                      = ['\\', c]
 
 shellEscape :: String -> String
 shellEscape = concatMap charEscape
