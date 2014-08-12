@@ -2,6 +2,8 @@
 
 module Main where
 
+import Paths_fswatch (version)
+import Data.Version (showVersion)
 import System.FSNotify
 import System.Process (system)
 import System.Exit (ExitCode(..))
@@ -88,7 +90,7 @@ main = execParser opts >>= watch
     where opts = info (helper <*> argumentsParser)
             ( fullDesc
            <> progDesc "Watch current directory for changes."
-           <> header   "fswatch - 0.1.0.0")
+           <> header   ("fswatch - " ++ showVersion version))
 
 -- TODO:
 -- ignore patterns
