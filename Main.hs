@@ -3,15 +3,15 @@
 module Main where
 
 import Paths_fswatch (version)
+import Control.Monad (forever, when)
 import Data.Version (showVersion)
-import System.FSNotify
+import Data.String (fromString)
+import Data.List (isInfixOf)
+import Filesystem.Path.CurrentOS (encodeString, (</>))
 import System.Process (system)
 import System.Exit (ExitCode(..))
-import Control.Monad (forever, when)
-import Filesystem.Path.CurrentOS (encodeString, (</>))
-import Data.List (isInfixOf)
-import Data.String (fromString)
 import System.Directory (doesFileExist, getCurrentDirectory)
+import System.FSNotify
 import Options.Applicative
 
 data CommandArgs = CommandArgs
