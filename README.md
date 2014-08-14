@@ -30,3 +30,24 @@ Or like that:
 ```
 fswatch --execute-with "fish"
 ```
+
+### Locking and skipping events while running task
+
+Here is small snippet with locks:
+
+```sh
+run_longrunningtask(){
+  touch .fswatch.lock
+  long_running_command
+  rm -f .fswatch.lock
+}
+
+if [[ ! -f .fswatch.lock ]]
+then
+  if [[ $1 == *.myfavoriteextension ]]
+  then run_longrunningtask &
+  fi
+fi
+```
+
+It will ignore all events up until long running task is done.
