@@ -1,5 +1,17 @@
 echo $@
 
-if [[ "$1" = *Main.hs ]]
-then cabal build
+run_cabal(){
+  echo "Actually doing something!"
+  touch .fswatch.lock
+  cabal build
+  rm -f .fswatch.lock
+}
+
+if [[ ! -f .fswatch.lock ]]
+then
+  if [[ "$1" = *Main.hs ]]
+  then run_cabal &
+  fi
 fi
+
+# vim: ft=shell:ts=2:sts=2:sw=2:expandtab
